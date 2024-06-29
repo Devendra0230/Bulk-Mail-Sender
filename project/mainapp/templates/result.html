@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Lists</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap-theme-dark.min.css" integrity="sha384-fenhI3+ hotspots4//mDkxsFzCJz8ULauKAAN6tDUqUVC6zYoi9zREA2yE3t+SXzUJTvuX" crossorigin="anonymous">
+    <style>
+      body {
+        background-color: #212529;
+        color: #fff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container text-light">
+      <h3>Task Status: {{ result }}</h3>
+      <h1>Email Lists</h1>
+      <div class="btn-group mb-3">
+        <button type="button" class="ms-2 btn btn-warning active" onclick="showList(1)">sender Emails</button>
+        <button type="button" class="ms-2 btn btn-light" onclick="showList(2)">Recipients Emails</button>
+        <button type="button" class="ms-2 btn btn-success" onclick="showList(3)">Successfuly Sent Emails</button>
+        <button type="button" class="ms-2 btn btn-danger" onclick="showList(4)">Failed Recipients Emails</button>
+        <button type="button" class="ms-2 btn btn-danger" onclick="showList(5)">Wrong Sender Emails</button>
+      </div>
+      <div id="list-container">
+        <ul id="list-1" class=" list-group">
+          <table class="table  border table-dark table-striped">
+            <tbody>
+              {% for email in sender %}
+              <tr class="text-warning">
+
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ email }}</td>
+
+              </tr>
+              {% endfor %}
+              <tr class="text-warning">
+                <th scope="row">Total</th>
+                <td>{{ sender|length }}</td>
+              </tr>
+          </table>
+        </ul>
+        <ul id="list-2" class="list-group d-none">
+          <table class="table  border table-dark table-striped">
+            <tbody>
+              {% for email in recipients %}
+              <tr class="text-">
+
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ email }}</td>
+
+              </tr>
+              {% endfor %}
+              <tr class="text-">
+                <th scope="row">Total</th>
+                <td>{{ recipients|length }}</td>
+              </tr>
+          </table>
+        </ul>
+        <ul id="list-3" class="list-group d-none">
+          <table class="table  border table-dark table-striped">
+            <tbody>
+              {% for email in success_recipient %}
+              <tr class="text-success">
+
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ email }}</td>
+
+              </tr>
+              {% endfor %}
+              <tr class="text-success">
+                <th scope="row">Total</th>
+                <td>{{ success_recipient|length }}</td>
+              </tr>
+          </table>
+        </ul>
+        <ul id="list-4" class="list-group d-none">
+          <table class="table  border table-dark table-striped">
+            <tbody>
+              {% for email in failed_recipient %}
+              <tr class="text-danger">
+
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ email }}</td>
+
+              </tr>
+              {% endfor %}
+              <tr class="text-danger">
+                <th scope="row">Total</th>
+                <td>{{ failed_recipient|length }}</td>
+              </tr>
+          </table>
+        </ul>
+        <ul id="list-5" class="list-group d-none">
+          <table class="table  border table-dark table-striped">
+            <tbody>
+              {% for email in failed_sender %}
+              <tr class="text-danger">
+
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ email }}</td>
+
+              </tr>
+              {% endfor %}
+              <tr class="text-danger">
+                <th scope="row">Total</th>
+                <td>{{ failed_sender|length }}</td>
+              </tr>
+          </table>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      function showList(listId) {
+        // Hide all lists
+        const listElements = document.querySelectorAll('#list-container ul');
+        listElements.forEach(list => list.classList.add('d-none'));
+
+        // Show the selected list
+        const selectedList = document.getElementById(`list-${listId}`);
+        selectedList.classList.remove('d-none');
+
+        // Update active button
+        const buttons = document.querySelectorAll('.btn-group button');
+        buttons.forEach(button => button.classList.remove('active'));
+        document.querySelector(`.btn-group button:nth-child(${listId})`).classList.add('active');
+      }
+    </script>
+  </body>
+
+</html>
+
+
+{% endblock content %}

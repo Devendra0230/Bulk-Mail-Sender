@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+      <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Email List</title>
+           
+           <style>
+            .body {
+color:white;
+background-color: #212529;
+}
+
+           </style>
+      </head>
+
+      <body>
+            <div class="container text-light py-5">
+                  {% if x == 0 %}
+                  <h1>Sender Email List</h1>
+                  <table class="table border table-dark table-striped">
+                        <thead>
+                              <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Email Address</th>
+                                    <th scope="col">Email Password</th>
+                                    
+                              </tr>
+                        </thead>
+                        <tbody>
+                              {% for email, password in data.items %}
+                              <tr>
+
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>{{ email }}</td>
+                                    <td>{{ password }}</td>
+                                    
+                              </tr>
+                              {% endfor %}
+
+                        </tbody>
+                  </table>
+                  {% elif x == 1 %}
+                  <h1>Receiver Email List</h1>
+                  <table class="table border table-dark table-striped">
+                        <thead>
+                              <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Email Address</th>
+                                    
+                              </tr>
+                        </thead>
+                        <tbody>
+                              {% for email in data %}
+                              <tr>
+
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>{{ email }}</td>
+                                    
+                              </tr>
+                              {% endfor %}
+
+                        </tbody>
+                  </table>
+                  {% endif %}
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVFQWrvVuHdBsCTSmEuIWNiPUgm9o+tBjQPxRUvv9a9TP4z4EO24" crossorigin="anonymous"></script>
+      </body>
+
+</html>
+
+
+{% endblock content %}

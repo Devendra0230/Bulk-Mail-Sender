@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+      <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                  .body {
+                        color: white;
+                        background-color: #212529;
+                  }
+
+                  .box {
+                        border: 1px solid white;
+                        padding: 30px;
+                        border-radius: 20px;
+                        width: 450px
+                  }
+
+                  .inputbox {
+                        margin: 40px;
+                        position: relative;
+                  }
+
+                  input {
+                        border: 1px solid white;
+                        border-radius: 8px;
+                        outline: none;
+                        background: #1c1c1c;
+                        color: white;
+                        height: 40px;
+                        width: 300px;
+                        transition-duration: 600ms;
+                  }
+
+                  input[type=number]::-webkit-inner-spin-button,
+                  input[type=number]::-webkit-outer-spin-button {
+                        -webkit-appearance: none;
+                  }
+
+                  input[type=submit] {
+                        background: rgb(60, 60, 60);
+                        width: 100px;
+                        transition-duration: 200ms;
+                  }
+
+                  input[type=submit]:hover {
+                        background-color: black;
+
+                  }
+
+                  input[type=submit]:active {
+                        background-color: rgb(30, 30, 30);
+                  }
+
+                  .label {
+                        position: absolute;
+                        top: 3px;
+                        left: 20px;
+                        font-size: 20px;
+                        cursor: auto;
+                        transition-duration: 600ms;
+                        height: 14px;
+                  }
+
+                  .input:focus,
+                  .input:not(:placeholder-shown).input:not(:focus) {
+                        border: 1px solid rgb(121, 183, 208);
+                  }
+
+                  .input:focus~.label,
+                  .input:not(:placeholder-shown).input:not(:focus)~.label {
+                        top: -12px;
+                        left: 10px;
+                        font-size: 15px;
+                        color: rgb(121, 183, 208);
+                        background-color: rgb(33, 37, 41);
+                  }
+
+                  .Row {
+                        margin-left: 10px;
+                        margin-top: -20px;
+                        color: rgb(121, 183, 208);
+                  }
+
+                  a {
+                        text-decoration: underline;
+                        color: rgb(121, 183, 208);
+                        text-decoration: dotted;
+                  }
+
+                  a:hover {
+                        color: rgb(174, 217, 234);
+                  }
+
+                  a:active {
+                        color: red;
+                  }
+
+                  .alert {
+                        background-color: rgb(125, 16, 16);
+                        height: 40px;
+                        padding: 5px;
+                        color: rgb(23, 2, 2);
+                  }
+
+                  .btn-close {
+                        border: 1px solid black;
+                        opacity: 1;
+                        width: 10px;
+                        height: 5px;
+                  }
+
+                  .hrdiv {
+                        display: flex;
+                        margin-bottom: 20px;
+                  }
+
+                  hr {
+                        width: 200px
+                  }
+
+                  .image {
+                        width: 50px;
+                        height: 43px;
+                        margin-top: 2px;
+                        margin-left: -22px;
+                        border-radius: 5px;
+                        padding-right: 3px;
+                  }
+
+                  .login-with {
+                        border: 2px solid rgb(70, 100, 220);
+                        background-color: rgb(70, 100, 220);
+                        width: 225px;
+                        height: 50px;
+                        overflow: hidden;
+                        color: white;
+                        border-radius: 4px;
+                        margin: 20px;
+                  }
+
+                  .login-link {
+                        color: rgb(255, 255, 255);
+                        font-weight: bold;
+                        text-decoration: none;
+                  }
+
+                  .login-link:active {
+                        color: white;
+                  }
+
+                  .bi {
+                        position: absolute;
+                        margin-left: -25px;
+                        margin-top: 5px;
+                  }
+            </style>
+
+      </head>
+
+      <body>
+
+            <center>
+                  <form method="POST" action="{% url 'register' %}">
+                        <div class="box">
+
+                              <h2>Sign-in</h2>
+
+                              <div class="inputbox">
+                                    <!-- <input class='input' type="email" id="id_email" value="{{ request.session.email }}" readonly onkeypress="myfunction()" name="email"> -->
+                                    {% render_field form.username placeholder=' ' class='input' readonly='readonly' required="required" value='{{ request.session.email }}' %}
+
+                                    <label for="id_email" class="label" for="email">Username</label>
+
+                              </div>
+                              <div class="inputbox">
+                                    {% render_field form.password1 placeholder=' ' class='input'%}
+                                    <label for='id_password1' class='label'>password<label>
+
+                              </div>
+
+                              <div class="inputbox">
+                                    {% render_field form.password2 placeholder=' ' class='input'%}
+                                    <label for='id_password2' class='label'>Re-enter password<label>
+
+                              </div>
+                              <p style=" font-size:14px;  margin-left:0px; margin-top: -30px; "><i>Password must contain minimum 8 charactor,<br> Combination of uppercase and lowercase <br> letters and include a number special charactor</i></p>
+
+                              <div class="links">
+                                    <a href="{% url 'login' %}">allredy have a Account ! Login </a>
+                              </div>
+                              <div class="inputbox">
+                                    <input class='submit' type="submit" name="singup" id="singup" value="Sign Up">
+                              </div>
+
+                        </div>
+                        </div>
+
+                        {% csrf_token %}
+
+                  </form>
+            </center>
+
+            <script>
+                  document.getElementById('id_username').value = '{{ request.session.email}}';
+
+
+                  function myfunction() {
+                        let a = document.getElementById('id_username').value;
+                        for (let i in a) {
+                              if (1 == 1) {
+                              }
+                        }
+                  }
+
+            </script>
+
+      </body>
+
+</html>
+{% endblock content %}

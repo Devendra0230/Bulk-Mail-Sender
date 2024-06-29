@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block home_active %}active{% endblock home_active %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+      <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Bulk Mail Sender</title>
+            <!-- Bootstrap CSS -->
+
+
+            <style>
+                  body {
+                        background-color: #212529;
+                        color: #fff;
+                  }
+
+
+                  .btn-primary {
+                        background-color: #38aadc;
+                        border-color: #38aadc;
+                  }
+
+                  .card {
+                        background-color: #292D31;
+                        border-color: rgba(255, 255, 255, 0.1);
+                  }
+
+                  .card-text {
+                        color: #ddd;
+                  }
+
+                  .trust {
+                        background-color: #1A1E21;
+                        color: #fff;
+                  }
+
+                  .benefits {
+                        border: 0.0001cm solid gray;
+                        background-color: #2c3034;
+
+                  }
+
+                  .features {}
+
+                  .main {}
+            </style>
+      </head>
+      <br><br>
+      <div class="container-fluid main">
+            <center>
+                  <section class="hero">
+                        <div class="col">
+                              <h2>Welcome to Bulk Mail Sender</h2>
+                              <p class="lead">Simplify Your Email Campaigns With Our Bulk Mail Sending Solution.</p>
+                              <a href="{% url 'profile' %}" class="btn btn-primary">Get Started</a>
+                        </div>
+                  </section>
+            </center>
+      </div>
+      <br><br>
+
+      <div class="container-fluid benefits p-5 d-grid ">
+            <div class="row ">
+                  <h2 class=''>Why Choose Us ?</h2>
+            </div>
+
+            <div class="row  ">
+                  <div class="col p-3 ">
+                        <div class="card h-100 shadow-sm">
+                              <div class="card-body">
+                                    <h3>Manage Multiple Accounts</h3>
+                                    <p class="card-text">Send Emails From All Your Email Addresses in One go.</p>
+                              </div>
+                        </div>
+                  </div>
+                  <div class="col p-3 ">
+                        <div class="card h-100 shadow-sm">
+                              <div class="card-body">
+                                    <h3>Build and Clean Email Lists</h3>
+                                    <p class="card-text">Upload, manage, and Clean Your Email Lists For Better Deliverability.</p>
+                              </div>
+                        </div>
+                  </div>
+                  <div class="col p-3 ">
+                        <div class="card h-100 shadow-sm">
+                              <div class="card-body">
+                                    <h3>Track Campaign Performance</h3>
+                                    <p class="card-text">See How Your Emails Are Performing With Detailed Analytics.</p>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </div>
+
+
+
+
+
+      <!-- Bootstrap JS (Optional) -->
+
+      </body>
+
+
+</html>
+
+
+{% endblock content %}

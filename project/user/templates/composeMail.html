@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block composemail_active %}active{% endblock composemail_active %}
+
+{% block style %}
+.body {
+color:white;
+background-color: #212529;
+}
+
+
+{% endblock style %}
+{% block content %}
+{% load my_tags %}
+
+<div class="container-fluid ">
+
+      <div style=" display:flex; background-color: rgb(26, 30, 33);" class="row">
+
+            <div class="col col-sm-12 rounded">
+
+                  <h3 class="ps-4">Compose mail</h3>
+
+                  <form class="m-4 p-3 border rounded row " style="border:1px solid white ;" method="post" action="{% url 'mail' %}">
+                        <div class="row">
+                              <div class="col-lg">
+                                    <label for="subject">Subject:</label>
+                                    <input autofocus required style="color: white;background-color: rgb(32, 29, 29);" type="text" name="subject" id="id_subject" class="form-control input">
+                                    <br>
+
+                                    <label for="message">Message:</label>
+                                    <textarea required style="color: white;background-color: rgb(32, 29, 29)" class="form-control" name="message" id="id_message" cols="30" rows="10"></textarea>
+                                    <p><i>You can use html tags inside message to design mail</i></p>
+                                    <br>
+                                    <label for="number">Choose, one email how many time send mail</label>
+                                    <input required style="color: white;background-color: rgb(32, 29, 29)" type="number" name="number" id="id_number" class="form-control input">
+                                    <p>Number shuold be less than 200.</p>
+
+                              </div>
+                              {% if files %}
+
+                              <div class="col-lg   ">
+                                    <h3>Choose Recipient Emails</h3>
+                                    <input class='form-check-input' onclick="showFileOption()" type="checkbox" id='check_file'> <label for="check_file"> Choose File</label><br>
+                                    <input class='form-check-input' onclick="showTextarea()" type="checkbox" id='check_email'> <label for="check_email"> Write Emails</label>
+
+                                    <div style="display: none;" id='choose_file' class="col-8">
+
+                                          <h4><label for="type">choose file to send mail</label></h4>
+                                          <select style="color: white;background-color: rgb(32, 29, 29)" class='form-select' name="file" id="id_file">
+                                                <option disabled selected value="">Select</option>
+
+                                                {% for file in files %}
+                                                <option value="{{ file.id }}">{{ file.file.name }}</option>
+
+                                                {% endfor %}
+                                          </select>
+
+
+                                    </div>
+                                    <div style="display:none;" id="email_area" class=" col">
+                                          <textarea placeholder="Write or past Emails here" style=" color: white;background-color: rgb(32, 29, 29)" class="form-control" name="email_area" id="id_textarea" cols="50" rows="10"></textarea>
+                                    </div>
+                                    <br>
+                                    <div class="col-7">
+                                          <label for="task_name"> Name for task to remember :</label>
+                                          <input title='Name for task to remember it' required style="color: white;background-color: rgb(32, 29, 29)" type="Text" name="task_name" id="id_task" class="form-control input">
+                                    </div>
+
+
+                              </div>
+                              {% else %}
+
+                              <div class="col col-sm-7 offset-1">
+                                    <h4>Please Upload Recipients listFile</h4>
+                                    <a class="btn btn-secondary" href="{% url 'uploadfile' %}">Upload file</a>
+                                    <input required value='' type="hidden">
+                              </div>
+
+                              {% endif %}
+                              <hr>
+                              <div class="row">
+                                    <div class="col col-5"></div>
+                                    <div class="col-3  align-items-center">
+                                          <input type="submit" class="btn btn-primary" value="Send Mail">
+                                    </div>
+                              </div>
+
+
+                              {% csrf_token %}
+                        </div>
+                  </form>
+
+
+            </div>
+            <div class="col col-6 offset-1">
+
+            </div>
+      </div>
+</div>
+<!-- Bootstrap JS (optional) -->
+
+<script>
+
+
+      function showFileOption() {
+            document.getElementById("check_email").checked = false
+            document.getElementById("choose_file").style.display = 'block'
+            document.getElementById("email_area").style.display = 'none'
+
+
+            document.getElementById("id_file").required = true
+            document.getElementById("id_textare").required = false
+
+      }
+
+      function showTextarea() {
+            document.getElementById("check_file").checked = false
+            document.getElementById("choose_file").style.display = 'none'
+            document.getElementById("email_area").style.display = 'block'
+
+
+            document.getElementById("id_file").required = false
+            document.getElementById("id_textare").required = true
+      }
+</script>
+{% endblock content %}

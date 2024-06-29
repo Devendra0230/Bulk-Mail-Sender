@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}
+      bulk mail sender
+      {% endblock title %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% block link %}  {% endblock link %}
+    <style>
+      
+      .navbar {
+        background-color: #000000;
+        color: #fff;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+
+      .brand-logo {
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+      }
+
+      .nav-links li {
+        margin-right: 1rem;
+      }
+
+      .nav-links a {
+        color: inherit;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+      }
+
+      .nav-links a:hover {
+        background-color: #29323a;
+      }
+
+      .nav-toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #fff;
+        font-size: 1.2rem;
+      }
+
+      .nav-toggle i {
+        transition: transform 1s ease;
+      }
+
+      /* Media Queries for Responsive Design */
+      @media screen and (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+
+        .nav-toggle {
+          display: block;
+        }
+
+        .nav-toggle i.fas.fa-bars {
+          transform: rotate(0deg);
+        }
+
+        .navbar.active .nav-links {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background-color: #343a40;
+        }
+
+        .navbar.active .nav-toggle i.fas.fa-bars {
+          transform: rotate(90deg);
+        }
+      }
+
+      /* Add styling for the 'default' class (optional) */
+      .navbar.default {
+        display: flex;
+        /* Ensure toggle button is visible initially */
+      }
+
+      footer {
+        font-size: 18px;
+        background-color: #4d4d4d;
+
+      }
+
+        {% block style %}
+
+        {% endblock style %}
+    </style>
+
+
+  </head>
+
+  <body class="body">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <nav class="navbar navbar-dark navbar-expand-md fixed-top">
+      <a class="navbar-brand" href="#"></a>
+
+      <div class="container-fluid">
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar">
+          <span class="visually-hidden">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="navbar" class="collapse navbar-collapse">
+          <div class="row ">
+            <div class="col">
+              <ul class="navbar-nav ">
+                <li class=" nav-item ms-md-auto move-right">
+                  <a class="nav-link {% block home_active %}{% endblock home_active %} " href="{% url 'home' %}">Home</a>
+                </li>
+                <li class=" nav-item ms-md-auto move-right">
+                  <a class=" nav-link {% block composemail_active %}{% endblock composemail_active %}" href="{% url 'composeMail' %}">Compose Mail</a>
+                </li>
+                <li class=" nav-item ms-md-auto move-right">
+                  {% if user.is_superuser %}
+                  <a class="nav-link " href=" bulk-mail-sender/super-user/auth/admin/">admin</a>{% endif %}
+                </li>
+                <li class=" nav-item ms-md-auto move-right">
+                  <a class=" nav-link {% block uploadfile_active %}{% endblock uploadfile_active %}" href="{% url 'uploadfile' %}">Upload File</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <h2 class="navbar-brand h2"><a class="navbar-brand" href="{% url 'home' %}"> Bulk Mail Sender</a></h2>
+        <div id="navbar" class="collapse navbar-collapse">
+          <div class="col-12 ">
+            <ul class="navbar-nav float-none float-md-end justify-content-start">
+              {% if request.session.task %}
+              <li class=" nav-item ms-md-auto move-right">
+                <a class=" nav-link {% block result %}{% endblock result %}" href="{% url 'result' request.session.task %}">result</a>
+              </li>
+              {% endif %}
+              {% if user.is_authenticated %}
+              <li class=" nav-item ms-md-auto move-right">
+                <form method="post" action=" {% url 'logout' %}">
+                  <button class=" btn logout nav-link {% block logout_active %}{% endblock logout_active %}">Logout
+                    <i class="fa fa-sign-out" style="font-size:20px;color:darkred"></i></button>
+                  {% csrf_token %}
+                </form>
+              </li>
+              <li class="nav-item ms-md-auto move-right">
+                <div class='image-place'>
+                  <a class="nav-item nav-link {% block profile_active %}{% endblock profile_active %}" href="{% url 'profile' %}">Profile</a>
+
+
+                </div>
+              </li>
+
+              {% else %}
+              <li class=" nav-item ms-md-auto move-right">
+                <a class=" nav-link {% block login_active %}{% endblock login_active %}" href="{% url 'login' %}">Login</a>
+              </li>
+              <li class=" nav-item ms-md-auto move-right">
+                <a class="nav-link {% block register_active %}{% endblock register_active %}" href="{% url 'registration' %}">Sign-up</a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      </div>
+    </nav>
+    
+    <br><br><br>
+    {% for msg in messages %}
+    <div id="alert" class=" alert row text-light alert-dark bg-dark" role="alert">
+      <div class="col col-4">
+        <strong>{{ msg }}</strong>
+      </div>
+      <div class=" col col-1 offset-7">
+        <button class="btn text-light p-1 my-0 " onclick='hide()'>close</button>
+      </div>
+    </div>
+    {% endfor %}
+    
+
+
+
+    {% block content %}{% endblock content %}
+    <br><br><br><br>
+    <footer id="footer" class="fixed-bottom  p-4  text-white">
+      <div class=" text-center">
+        <small>2024 Bulk Mail Sender. &copy; All rights reserved.</small>
+      </div>
+    </footer>
+
+    <script>
+      function hide() {
+        document.getElementById('alert').style.display = 'none'
+      }
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,77 @@
+{% load static %}
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Virtual Assistant</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Virtual Assistant</h1>
+        <form id="assistant-form">
+            <input type="text" id="text" placeholder="Speak or type something...">
+            <button id="submit">Send</button>
+        </form>
+        <div id="response"></div>
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        const form = document.getElementById('assistant-form');
+        const textInput = document.getElementById('text');
+        const responseDiv = document.getElementById('response');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = textInput.value;
+            const response = await fetch('/assistant/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text })
+            });
+            const data = await response.json();
+            responseDiv.innerHTML = `
+                <p>Text: ${data.text}</p>
+                <p>POS Tags: ${data.pos_tags.join(', ')}</p>
+                <p>Dependencies: ${data.dependencies}</p>
+                <p>Entities: ${data.entities.join(', ')}</p>
+            `;
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Voice Assistant</title>
+</head>
+<body>
+    <h1>Voice Assistant</h1>
+    <button onclick="startVoiceRecognition()">Start Voice Recognition</button>
+    <div id="results"></div>
+
+    <script>
+        function startVoiceRecognition() {
+            fetch('/voice/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('results').innerText = data.error;
+                } else {
+                    document.getElementById('results').innerText = data.results.join(', ');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
